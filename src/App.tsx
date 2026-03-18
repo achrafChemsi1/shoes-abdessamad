@@ -1,0 +1,302 @@
+import React, { useState } from 'react';
+import { Truck, ShieldCheck, Star, ArrowLeft, CheckCircle, Clock, ChevronLeft } from 'lucide-react';
+
+export default function App() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    city: '',
+    address: '',
+    size: '42',
+    color: 'أسود'
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const scrollToForm = () => {
+    document.getElementById('order-form')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className="min-h-screen bg-stone-50 text-stone-900 font-sans pb-24 lg:pb-0 selection:bg-amber-200" dir="rtl">
+      {/* Navigation */}
+      <nav className="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="font-bold text-2xl tracking-tighter text-stone-900" dir="ltr">ZÉNITH.</div>
+          <button onClick={scrollToForm} className="bg-stone-900 text-white px-5 py-2 rounded-md font-medium text-sm hover:bg-stone-800 transition-colors">
+            اطلب الآن
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="max-w-5xl mx-auto px-4 py-8 lg:py-16 grid lg:grid-cols-2 gap-8 items-center">
+        <div className="order-2 lg:order-1 space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-sm font-medium">
+            <Star className="w-4 h-4 fill-amber-700 text-amber-700" />
+            <span>الأكثر مبيعاً في المغرب</span>
+          </div>
+          <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight leading-tight text-stone-900">
+            فخامة الجلد.<br/>راحة لا مثيل لها.
+          </h1>
+          <p className="text-lg text-stone-600 leading-relaxed">
+            حذاء يجمع بين الأناقة الكلاسيكية والراحة العصرية. مصمم ليناسب إطلالتك اليومية، سواء مع الجينز أو السروال الرسمي.
+          </p>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 text-stone-700">
+              <CheckCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+              <span>جلد عالي الجودة بتشطيبات دقيقة</span>
+            </div>
+            <div className="flex items-center gap-3 text-stone-700">
+              <CheckCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+              <span>نعل طبي سميك لراحة تدوم طوال اليوم</span>
+            </div>
+            <div className="flex items-center gap-3 text-stone-700">
+              <CheckCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+              <span>متوفر بـ 3 ألوان: أسود، بني، وأزرق داكن</span>
+            </div>
+          </div>
+          <div className="pt-4">
+            <button onClick={scrollToForm} className="w-full lg:w-auto bg-amber-600 text-white px-8 py-4 rounded-md font-bold text-lg hover:bg-amber-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-900/20">
+              اطلب حذاءك الآن <ArrowLeft className="w-5 h-5" />
+            </button>
+            <p className="text-center lg:text-right text-sm text-stone-500 mt-3 flex items-center justify-center lg:justify-start gap-1">
+              <Truck className="w-4 h-4" /> توصيل مجاني والدفع عند الاستلام
+            </p>
+          </div>
+        </div>
+        <div className="order-1 lg:order-2 relative">
+          {/* Hero Image: The black shoe with Moroccan Zellij background */}
+          <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl bg-stone-200 relative">
+            <img
+              src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop"
+              alt="Zénith Premium Sneaker"
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-center p-4 backdrop-blur-sm">
+              <p className="font-medium">⚠️ يرجى رفع صورة الحذاء الأسود مع الخلفية المغربية هنا (Hero Image)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Banner */}
+      <section className="bg-stone-900 text-white py-8 mt-8">
+        <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x md:divide-x-reverse divide-stone-700">
+          <div className="flex flex-col items-center gap-2 pt-4 md:pt-0">
+            <Truck className="w-8 h-8 text-amber-500" />
+            <h3 className="font-bold text-lg">توصيل مجاني</h3>
+            <p className="text-stone-300 text-sm">إلى جميع أنحاء المغرب (24-48 ساعة)</p>
+          </div>
+          <div className="flex flex-col items-center gap-2 pt-4 md:pt-0">
+            <ShieldCheck className="w-8 h-8 text-amber-500" />
+            <h3 className="font-bold text-lg">الدفع عند الاستلام</h3>
+            <p className="text-stone-300 text-sm">تأكد من جودة الحذاء قبل الدفع</p>
+          </div>
+          <div className="flex flex-col items-center gap-2 pt-4 md:pt-0">
+            <Clock className="w-8 h-8 text-amber-500" />
+            <h3 className="font-bold text-lg">استبدال سهل</h3>
+            <p className="text-stone-300 text-sm">المقاس غير مناسب؟ نقوم باستبداله مجاناً.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery / Details */}
+      <section className="max-w-5xl mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4 text-stone-900">ألوان تناسب كل أذواقك</h2>
+          <p className="text-stone-600 max-w-2xl mx-auto">تصميم عصري بلمسة كلاسيكية، متوفر بثلاثة ألوان أساسية لتكمل أناقتك في كل المناسبات.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Gallery Image 1: The Brown shoes worn with grey trousers */}
+          <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-md bg-stone-200">
+             <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=800&auto=format&fit=crop" alt="Brown Sneakers on feet" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+             <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-center p-4 backdrop-blur-sm">
+              <p className="font-medium">⚠️ يرجى رفع صورة الحذاء البني الملبوس هنا</p>
+            </div>
+          </div>
+          {/* Gallery Image 2: Hand holding the brown shoe with others in background */}
+          <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-md bg-stone-200">
+             <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop" alt="All colors" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+             <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-center p-4 backdrop-blur-sm">
+              <p className="font-medium">⚠️ يرجى رفع صورة الألوان الثلاثة هنا</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Order Form Section */}
+      <section id="order-form" className="bg-white py-16 border-t border-stone-200">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="bg-stone-50 rounded-3xl p-6 md:p-10 shadow-xl border border-stone-100">
+            {isSubmitted ? (
+              <div className="text-center py-12 space-y-4">
+                <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-amber-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-stone-900">تم الطلب بنجاح!</h2>
+                <p className="text-lg text-stone-600 max-w-md mx-auto">
+                  شكراً <span className="font-semibold">{formData.name}</span>. سيقوم فريقنا بالاتصال بك على الرقم <span className="font-semibold" dir="ltr">{formData.phone}</span> خلال 24 ساعة لتأكيد طلبك.
+                </p>
+                <p className="text-amber-700 font-medium mt-4">يرجى إبقاء هاتفك قريباً منك!</p>
+              </div>
+            ) : (
+              <>
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-bold mb-2 text-stone-900">احجز حذاءك الآن</h2>
+                  <p className="text-stone-600">املأ الاستمارة، وسنتصل بك لتأكيد الطلب.</p>
+                  <div className="mt-4 inline-block bg-amber-100 text-amber-900 px-4 py-2 rounded-lg font-bold text-xl">
+                    السعر: 349 درهم <span className="text-sm font-normal line-through text-stone-500 mr-2">500 درهم</span>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5 text-right">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-stone-700">الاسم الكامل *</label>
+                      <input
+                        required
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="مثال: حسن العلوي"
+                        className="w-full px-4 py-3 rounded-md border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-stone-700">رقم الهاتف *</label>
+                      <input
+                        required
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="06... أو 07..."
+                        pattern="^(06|07)[0-9]{8}$"
+                        title="يجب أن يبدأ الرقم بـ 06 أو 07 ويتكون من 10 أرقام"
+                        className="w-full px-4 py-3 rounded-md border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all text-right"
+                        dir="ltr"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-stone-700">المدينة *</label>
+                    <select
+                      required
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-md border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-white"
+                    >
+                      <option value="">اختر مدينتك</option>
+                      <option value="الدار البيضاء">الدار البيضاء</option>
+                      <option value="الرباط">الرباط</option>
+                      <option value="مراكش">مراكش</option>
+                      <option value="طنجة">طنجة</option>
+                      <option value="فاس">فاس</option>
+                      <option value="أكادير">أكادير</option>
+                      <option value="مدينة أخرى">مدينة أخرى</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-stone-700">عنوان التوصيل *</label>
+                    <input
+                      required
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      placeholder="عنوانك بالكامل"
+                      className="w-full px-4 py-3 rounded-md border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-5">
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-stone-700">المقاس *</label>
+                      <select
+                        required
+                        name="size"
+                        value={formData.size}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-md border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-white"
+                      >
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-stone-700">اللون *</label>
+                      <select
+                        required
+                        name="color"
+                        value={formData.color}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-md border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-white"
+                      >
+                        <option value="أسود">أسود (Black)</option>
+                        <option value="بني">بني (Brown)</option>
+                        <option value="أزرق داكن">أزرق داكن (Navy)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      className="w-full bg-amber-600 text-white px-8 py-4 rounded-md font-bold text-xl hover:bg-amber-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-900/20"
+                    >
+                      تأكيد طلبي <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <div className="mt-4 flex items-center justify-center gap-2 text-sm text-stone-500">
+                      <ShieldCheck className="w-4 h-4 text-amber-600" />
+                      <span>معلوماتك آمنة. الدفع عند الاستلام.</span>
+                    </div>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-stone-900 text-stone-400 py-12 text-center">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="font-bold text-2xl tracking-tighter text-white mb-4" dir="ltr">ZÉNITH.</div>
+          <p className="mb-6">الحذاء الرياضي الأنيق للرجل المغربي.</p>
+          <div className="flex justify-center gap-6 text-sm">
+            <a href="#" className="hover:text-white transition-colors">الشروط والأحكام</a>
+            <a href="#" className="hover:text-white transition-colors">سياسة الاسترجاع</a>
+            <a href="#" className="hover:text-white transition-colors">اتصل بنا</a>
+          </div>
+          <p className="mt-8 text-xs text-stone-600">© 2026 Zénith Shoes. جميع الحقوق محفوظة.</p>
+        </div>
+      </footer>
+
+      {/* Mobile Sticky CTA */}
+      {!isSubmitted && (
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-stone-200 lg:hidden z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+          <button onClick={scrollToForm} className="w-full bg-amber-600 text-white px-4 py-3 rounded-md font-bold text-lg hover:bg-amber-700 transition-colors flex items-center justify-center gap-2">
+            اطلب الآن (349 درهم)
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
