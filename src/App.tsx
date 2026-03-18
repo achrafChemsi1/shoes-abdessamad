@@ -254,7 +254,7 @@ export default function App() {
                   <h2 className="text-3xl font-bold mb-2 text-stone-900">احجز حذاءك الآن</h2>
                   <p className="text-stone-600">املأ الاستمارة، وسنتصل بك لتأكيد الطلب.</p>
                   <div className="mt-4 inline-block bg-amber-100 text-amber-900 px-4 py-2 rounded-lg font-bold text-xl">
-                    السعر: 349 درهم <span className="text-sm font-normal line-through text-stone-500 mr-2">500 درهم</span>
+                    السعر: 270 درهم <span className="text-sm font-normal line-through text-stone-500 mr-2">500 درهم</span>
                   </div>
                 </div>
 
@@ -332,11 +332,13 @@ export default function App() {
                         onChange={handleChange}
                         className="w-full px-4 py-3 rounded-md border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all bg-white"
                       >
+                        <option value="39">39</option>
                         <option value="40">40</option>
                         <option value="41">41</option>
                         <option value="42">42</option>
                         <option value="43">43</option>
                         <option value="44">44</option>
+                        <option value="45">45</option>
                       </select>
                     </div>
                     <div className="space-y-1">
@@ -397,7 +399,7 @@ export default function App() {
       {!isSubmitted && (
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-stone-200 lg:hidden z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
           <button onClick={scrollToForm} className="w-full bg-amber-600 text-white px-4 py-3 rounded-md font-bold text-lg hover:bg-amber-700 transition-colors flex items-center justify-center gap-2">
-            اطلب الآن (349 درهم)
+            اطلب الآن (270 درهم)
           </button>
         </div>
       )}
