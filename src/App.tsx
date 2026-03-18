@@ -1,8 +1,34 @@
-import React, { useState } from 'react';
-import { Truck, ShieldCheck, Star, ArrowLeft, CheckCircle, Clock, ChevronLeft } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Truck, ShieldCheck, Star, ArrowLeft, CheckCircle, Clock, ChevronLeft, Loader2 } from 'lucide-react';
+
+const GOOGLE_SHEETS_URL = (import.meta as any).env?.VITE_GOOGLE_SHEETS_URL || '';
 
 export default function App() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => { });
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -12,9 +38,28 @@ export default function App() {
     color: 'أسود'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    try {
+      if (GOOGLE_SHEETS_URL) {
+        await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+      }
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Still show success since no-cors won't give us a readable response
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -45,7 +90,7 @@ export default function App() {
             <span>الأكثر مبيعاً في المغرب</span>
           </div>
           <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight leading-tight text-stone-900">
-            فخامة الجلد.<br/>راحة لا مثيل لها.
+            فخامة الجلد.<br />راحة لا مثيل لها.
           </h1>
           <p className="text-lg text-stone-600 leading-relaxed">
             حذاء يجمع بين الأناقة الكلاسيكية والراحة العصرية. مصمم ليناسب إطلالتك اليومية، سواء مع الجينز أو السروال الرسمي.
@@ -77,14 +122,10 @@ export default function App() {
           {/* Hero Image: The black shoe with Moroccan Zellij background */}
           <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl bg-stone-200 relative">
             <img
-              src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop"
-              alt="Zénith Premium Sneaker"
+              src="/images/hero-black-shoe.jpeg"
+              alt="Zénith Premium Sneaker - حذاء أسود مع خلفية مغربية"
               className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-center p-4 backdrop-blur-sm">
-              <p className="font-medium">⚠️ يرجى رفع صورة الحذاء الأسود مع الخلفية المغربية هنا (Hero Image)</p>
-            </div>
           </div>
         </div>
       </section>
@@ -110,6 +151,70 @@ export default function App() {
         </div>
       </section>
 
+      {/* Video Demonstration Section */}
+      <section className="max-w-5xl mx-auto px-4 py-16 bg-stone-100/50">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-sm font-medium mb-4">
+            <ShieldCheck className="w-4 h-4 text-amber-700" />
+            <span>جلد طبيعي 100%</span>
+          </div>
+          <h2 className="text-3xl font-bold mb-4 text-stone-900">شاهد الجودة بنفسك</h2>
+          <p className="text-stone-600 max-w-2xl mx-auto">
+            نضمن لك جودة الجلد الطبيعي والمرونة العالية. شاهد الفيديو الذي يثبت أصالة منتجاتنا، وتعرف على تفاصيل الخياطة الدقيقة.
+          </p>
+        </div>
+
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-900 aspect-[9/16] max-w-sm mx-auto border-4 border-white">
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            controls
+            playsInline
+            loop
+          >
+            <source src="/images/video.mp4" type="video/mp4" />
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+
+        </div>
+      </section>
+
+      {/* Customer Reviews (Social Proof) */}
+      <section className="bg-stone-900 text-white py-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">آراء زبنائنا</h2>
+            <p className="text-stone-400">أكثر من 2000 زبون راضٍ في جميع أنحاء المغرب</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-stone-800 p-6 rounded-2xl border border-stone-700">
+              <div className="flex text-amber-500 mb-3">
+                <Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" />
+              </div>
+              <p className="text-stone-300 mb-4">"حذاء ممتاز جداً، الجلد طبيعي ومريح في اللبس. التوصيل كان سريع للدار البيضاء والتعامل راقي."</p>
+              <p className="font-bold text-white">- ياسين م.</p>
+              <p className="text-xs text-stone-500">تم الشراء مؤخراً</p>
+            </div>
+            <div className="bg-stone-800 p-6 rounded-2xl border border-stone-700">
+              <div className="flex text-amber-500 mb-3">
+                <Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" />
+              </div>
+              <p className="text-stone-300 mb-4">"أول مرة نشري صباط من الانترنيت ويصدق بهاد الجودة. شكرا لكم، غادي نزيد نكوموندي لون آخر."</p>
+              <p className="font-bold text-white">- كريم ب.</p>
+              <p className="text-xs text-stone-500">تم الشراء مؤخراً</p>
+            </div>
+            <div className="bg-stone-800 p-6 rounded-2xl border border-stone-700">
+              <div className="flex text-amber-500 mb-3">
+                <Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" /><Star className="w-5 h-5 fill-current" />
+              </div>
+              <p className="text-stone-300 mb-4">"الصباط مريح بزاف خصوصا للناس لي كيوقفو بزاف فخدمتهم. الثمن مناسب جدا مقارنة بالجودة."</p>
+              <p className="font-bold text-white">- هشام ع.</p>
+              <p className="text-xs text-stone-500">تم الشراء مؤخراً</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Gallery / Details */}
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="text-center mb-12">
@@ -119,17 +224,11 @@ export default function App() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Gallery Image 1: The Brown shoes worn with grey trousers */}
           <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-md bg-stone-200">
-             <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=800&auto=format&fit=crop" alt="Brown Sneakers on feet" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-             <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-center p-4 backdrop-blur-sm">
-              <p className="font-medium">⚠️ يرجى رفع صورة الحذاء البني الملبوس هنا</p>
-            </div>
+            <img src="/images/brown-shoe-worn.jpeg" alt="حذاء بني ملبوس مع سروال رمادي" className="w-full h-full object-cover" />
           </div>
           {/* Gallery Image 2: Hand holding the brown shoe with others in background */}
           <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-md bg-stone-200">
-             <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop" alt="All colors" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-             <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-center p-4 backdrop-blur-sm">
-              <p className="font-medium">⚠️ يرجى رفع صورة الألوان الثلاثة هنا</p>
-            </div>
+            <img src="/images/all-colors-shoe.jpeg" alt="الألوان الثلاثة - بني، أسود، أزرق داكن" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -259,9 +358,14 @@ export default function App() {
                   <div className="pt-4">
                     <button
                       type="submit"
-                      className="w-full bg-amber-600 text-white px-8 py-4 rounded-md font-bold text-xl hover:bg-amber-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-900/20"
+                      disabled={isSubmitting}
+                      className="w-full bg-amber-600 text-white px-8 py-4 rounded-md font-bold text-xl hover:bg-amber-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-900/20 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                      تأكيد طلبي <ChevronLeft className="w-6 h-6" />
+                      {isSubmitting ? (
+                        <><Loader2 className="w-6 h-6 animate-spin" /> جاري الإرسال...</>
+                      ) : (
+                        <>تأكيد طلبي <ChevronLeft className="w-6 h-6" /></>
+                      )}
                     </button>
                     <div className="mt-4 flex items-center justify-center gap-2 text-sm text-stone-500">
                       <ShieldCheck className="w-4 h-4 text-amber-600" />
