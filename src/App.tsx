@@ -75,7 +75,10 @@ export default function App() {
       {/* Navigation */}
       <nav className="bg-white border-b border-stone-200 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="font-bold text-2xl tracking-tighter text-stone-900" dir="ltr">ZÉNITH.</div>
+          <div className="font-bold text-2xl tracking-tighter text-stone-900 flex items-baseline gap-2" dir="ltr">
+            AsriStep
+            <span className="text-sm font-medium text-amber-600 tracking-normal" dir="rtl">الخطوة العصرية</span>
+          </div>
           <button onClick={scrollToForm} className="bg-stone-900 text-white px-5 py-2 rounded-md font-medium text-sm hover:bg-stone-800 transition-colors">
             اطلب الآن
           </button>
@@ -123,7 +126,7 @@ export default function App() {
           <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl bg-stone-200 relative">
             <img
               src="/images/hero-black-shoe.jpeg"
-              alt="Zénith Premium Sneaker - حذاء أسود مع خلفية مغربية"
+              alt="AsriStep Premium Sneaker - حذاء أسود مع خلفية مغربية"
               className="w-full h-full object-cover"
             />
           </div>
@@ -384,14 +387,17 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-stone-900 text-stone-400 py-12 text-center">
         <div className="max-w-5xl mx-auto px-4">
-          <div className="font-bold text-2xl tracking-tighter text-white mb-4" dir="ltr">ZÉNITH.</div>
-          <p className="mb-6">الحذاء الرياضي الأنيق للرجل المغربي.</p>
+          <div className="font-bold text-2xl tracking-tighter text-white mb-2" dir="ltr">
+            AsriStep
+            <span className="block text-sm font-medium text-amber-500 mt-1" dir="rtl">الخطوة العصرية</span>
+          </div>
+          <p className="mb-6">الحذاء الأنيق للرجل المغربي.</p>
           <div className="flex justify-center gap-6 text-sm">
             <a href="#" className="hover:text-white transition-colors">الشروط والأحكام</a>
             <a href="#" className="hover:text-white transition-colors">سياسة الاسترجاع</a>
             <a href="#" className="hover:text-white transition-colors">اتصل بنا</a>
           </div>
-          <p className="mt-8 text-xs text-stone-600">© 2026 Zénith Shoes. جميع الحقوق محفوظة.</p>
+          <p className="mt-8 text-xs text-stone-600">© 2026 AsriStep. جميع الحقوق محفوظة.</p>
         </div>
       </footer>
 
